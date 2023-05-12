@@ -1,6 +1,6 @@
 import {SaveXMLResult} from 'bpmn-js/lib/BaseViewer';
 import { getValidation } from '../api';
-import type FrssModeler from 'freas-bpmn4frss-library/editor';
+import type { FrssModeler } from 'freas-bpmn4frss-library';
 
 export const runValidation = async (
   diagram: SaveXMLResult | undefined,

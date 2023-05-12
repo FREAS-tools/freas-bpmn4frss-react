@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import FrssModeler from "freas-bpmn4frss-library/editor";
+import { FrssModeler } from "freas-bpmn4frss-library";
 
 // import all necessary CSS (built in assets/bpmn4frss-editor.css)
 import "../assets/index.css";

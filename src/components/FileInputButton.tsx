@@ -1,5 +1,5 @@
 import React from "react";
-import type FrssModeler from "frss-bpmn4frss-library/editor";
+import type { FrssModeler } from "freas-bpmn4frss-library";
 
 export type FileInputButtonProps = {
   caption: string,

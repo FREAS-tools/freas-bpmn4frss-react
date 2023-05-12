@@ -1,5 +1,5 @@
 import React from "react"
-import type FrssModeler from "freas-bpmn4frss-library/editor";
+import type { FrssModeler } from "freas-bpmn4frss-library";
 
 /**
  * Loads the file from the input
