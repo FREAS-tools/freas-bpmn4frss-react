@@ -29,16 +29,22 @@
     display: grid;
     grid-template:
         [row1-start] "editor properties" [row1-end]
-        / 5fr 1fr;
+        / 4fr 1fr;
 }
 
 .editor-container {
     /* Editor belongs to the editor area */
     grid-area: editor;
+
+    /* Box model */
+    overflow: hidden;
 }
 
 .editor {
     /* Takes up maximal allowed space */
+
+    /* Position */
+    position: relative;
 
     /* Size */
     height: 100%;
@@ -57,9 +63,11 @@
     /* Position */
     bottom: 0;
     position: absolute;
+    z-index: 1;
 
     /* Size */
     height: auto;
+    max-width: 100%;
 
     /* Box */
     margin: 1.25rem;
@@ -67,8 +75,10 @@
     /* Display */
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
+    overflow: hidden;
 }
 
 .button {
