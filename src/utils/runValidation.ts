@@ -23,7 +23,7 @@ export const runValidation = async (
     // load new overlays
     library?.showFrssOverlays(result);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     alert('Something went wrong');
   }
 };
