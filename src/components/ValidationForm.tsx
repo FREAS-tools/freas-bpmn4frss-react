@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   DataValidationFormData,
   analysisTypes,
