@@ -3,13 +3,15 @@ import type { FrssModeler } from "freas-bpmn4frss-library";
 
 /**
  * Loads the file from the input
- * @param event 
- * @param library 
+ * @param event change event of the input
+ * @param library the FRSS modeler
+ * @param
  * @returns 
  */
 export const loadDiagramFromFile = (
   event: React.ChangeEvent<HTMLInputElement>,
-  library: FrssModeler | undefined
+  library: FrssModeler | undefined,
+  setDiagram: React.Dispatch<React.SetStateAction<string | undefined>>,
 ) => {
   const fileArray = event?.target?.files;
 
@@ -38,5 +40,7 @@ export const loadDiagramFromFile = (
     }
 
     library?.loadDiagram(result);
+    // set the diagram state triggering a re-render of the component
+    setDiagram(result);
   };   
 }

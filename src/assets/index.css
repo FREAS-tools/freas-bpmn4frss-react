@@ -18,6 +18,7 @@
     --frss-button-border-color: var(--border-color);
     --frss-button-background-color: #f7f7f8;
     --frss-button-caption-color: #111;
+    --frss-panel-border: solid 1px var(--frss-panel-border-color);
 }
 
 .bpmn4frss {
@@ -28,7 +29,7 @@
     /* Display */
     display: grid;
     grid-template:
-        [row1-start] "editor properties" [row1-end]
+        [row1-start] "editor panel" [row1-end]
         / 4fr 1fr;
 }
 
@@ -53,10 +54,42 @@
 
 .properties {
     /* Belongs to the properties area */
-    grid-area: properties;
+    display: none;
+    grid-area: panel;
 
     /* Style */
-    border: solid 1px var(--frss-panel-border-color);
+    border: var(--frss-panel-border);
+}
+
+.validation {
+    height: 100%;
+    display: none;
+    grid-area: panel;
+    box-sizing: border-box;
+    border: var(--frss-panel-border);
+}
+
+.validation-form {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.visible {
+    display: block;
+}
+
+
+.panel-header {
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.form-button-container {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
 }
 
 .button-container {

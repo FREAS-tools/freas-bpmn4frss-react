@@ -12,7 +12,7 @@ import { validationApiRoute } from "./route";
  *             and the required mode
  * @returns validated response
  */
-export const getValidation = async (
+export const getAndValidateRequest = async (
   data: DataValidationRequest,
 ): Promise<DataValidationResult> => {
   const response = await axios.post(validationApiRoute, data);

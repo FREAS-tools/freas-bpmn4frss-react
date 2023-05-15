@@ -5,9 +5,11 @@ export type FileInputButtonProps = {
   caption: string,
   onChange: (
     event: React.ChangeEvent<HTMLInputElement>,
-    library: FrssModeler | undefined
+    library: FrssModeler | undefined,
+    setDiagram: React.Dispatch<React.SetStateAction<string | undefined>>,
   ) => void,
   library: FrssModeler | undefined;
+  setDiagram: React.Dispatch<React.SetStateAction<string | undefined>>,
 };
 
 /**
@@ -21,6 +23,7 @@ export const FileInputButton: React.FC<FileInputButtonProps> = ({
   caption,
   onChange,
   library,
+  setDiagram,
 }) => (
   <form className="input-container">
     <label className="button clickable" htmlFor="diagram-file-input">
@@ -30,7 +33,7 @@ export const FileInputButton: React.FC<FileInputButtonProps> = ({
       className="input"
       id="diagram-file-input"
       type="file"
-      onChange={(event) => onChange(event, library)}
+      onChange={(event) => onChange(event, library, setDiagram)}
     />
   </form>
 )

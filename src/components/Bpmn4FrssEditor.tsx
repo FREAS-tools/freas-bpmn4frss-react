@@ -8,14 +8,12 @@ import "../assets/index.css";
 import { FileInputButton } from "../components/FileInputButton";
 import { ButtonContainer } from "../components/ButtonContainer";
 import { Button } from "../components/Button";
+import { ValidationForm } from "./ValidationForm";
 
 // import utility functions
 import { loadDiagramFromFile } from "../utils/loadDiagramFromFile";
 import { donwloadDiagramAsXML } from "../utils/downloadXML";
 import { downloadDiagramAsSVG } from "../utils/downloadSVG";
-
-// import validation code
-import { runValidation } from "../utils/runValidation";
 
 /**
  * Component encapsulating the freas-bpmn4frss-library
@@ -34,6 +32,11 @@ const Bpmn4FrssEditor = () => {
 
   // create a state for the Bpmn4FrssWebEditor
   const [library, setLibrary] = useState<FrssModeler>();
+
+  const [diagram, setDiagram] = useState<string | undefined>();
+
+  // state for the panel (forcing a redraw)
+  const [panelState, setPanelState] = useState<boolean>(true);
   const downloadFileStore = useRef<string | undefined>();
 
   // allow running resize on window resize
@@ -70,10 +73,13 @@ const Bpmn4FrssEditor = () => {
 
   // loading the default diagram on start
   useEffect(() => {
-    library?.loadDefaultDiagram();
+    const diagram = library?.loadDefaultDiagram();
 
     // add an event listener to listen for resize events
     window.addEventListener('resize', resizer);
+
+    // trigger rerender after the diagram has been loaded
+    diagram?.then((newDiagram) => setDiagram(newDiagram));
 
     return () => {
       window.removeEventListener('resize', resizer);
@@ -91,10 +97,14 @@ const Bpmn4FrssEditor = () => {
               onChange={loadDiagramFromFile}
               library={library}
               caption="Load diagram"
+              setDiagram={setDiagram}
             />
             <Button 
               caption="Default diagram"
-              onClick={async () => await library?.loadDefaultDiagram()}
+              onClick={async () => {
+                const newDiagram = await library?.loadDefaultDiagram();
+                setDiagram(newDiagram);
+              }}
             />
             <Button 
               caption="Download XML"
@@ -119,21 +129,24 @@ const Bpmn4FrssEditor = () => {
               }
             />
             <Button 
-              caption="Run validation"
-              onClick={async () => await runValidation(
-                await library?.saveXML(),
-                library,
-              )}
-            />
-            <Button
-              caption="Close overlays"
-              onClick={() => library?.removeFrssOverlays()}
+              caption={panelState ? 'Show validation' : 'Show properties'}
+              onClick={() => setPanelState((prev) => !prev)}
             />
         </ButtonContainer>
       </div>
       
       {/* Properties panel */}
-      <div ref={propertiesContainer} className="properties"></div>
+      <div 
+        ref={propertiesContainer} 
+        className={`properties${panelState ? ' visible' : ''}`}
+      ></div>
+
+      {/* Validation form */}
+      <ValidationForm 
+        className={`validation${!panelState ? ' visible' : ''}`}
+        library={library}
+        diagram={diagram}
+      />
     </div>
   );
 };

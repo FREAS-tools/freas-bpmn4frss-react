@@ -1,29 +1,39 @@
-import {SaveXMLResult} from 'bpmn-js/lib/BaseViewer';
-import { getValidation } from '../api';
+import { getAndValidateRequest } from '../api';
 import type { FrssModeler } from 'freas-bpmn4frss-library';
+import type {
+  DataValidationFormData,
+  DataValidationRequest,
+} from 'freas-bpmn4frss-library/frss-extension/services/overlays/schemas';
+import { showValidation } from './showValidation';
 
 export const runValidation = async (
-  diagram: SaveXMLResult | undefined,
+  data: DataValidationFormData,
   library: FrssModeler | undefined,
 ) => {
   try {
-    if (diagram?.error !== undefined || diagram?.xml === undefined) {
+    /* Obtain the XML diagram for the request */
+    const xmlDiagram = await library?.saveXML();
+    if (xmlDiagram?.error !== undefined || xmlDiagram?.xml === undefined) {
       alert('Diagram deserialisation failed');
       return;
     }
 
-    const result = await getValidation({
-      analysis_type: 'SEMANTIC_ALL',
-      bpmn_model: diagram.xml,
-    });
+    /* Build the request data */
+    const request: DataValidationRequest = {
+      ...data,
+      bpmn_model: xmlDiagram.xml
+    };
 
-    // remove previously loaded overlays
+    /* Send request to the REST API */
+    const result = await getAndValidateRequest(request);
+
+    /* Remove previously loaded validation */
     library?.removeFrssOverlays();
 
-    // load new overlays
-    library?.showFrssOverlays(result);
+    /* Load new overlays */
+    showValidation(result, library);
   } catch (e) {
     console.error(e);
-    alert('Something went wrong');
+    alert('Something went wrong during request creation.');
   }
 };
