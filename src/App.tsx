@@ -1,11 +1,11 @@
 import './App.css'
-import Bpmn4FrssEditor from './components/Bpmn4FrssEditor'
+import Bpmn4FrssModeler from './components/Bpmn4FrssModeler'
 
 // displaying the BPMN4FRSS modeler as the single element on the page
 function App() {
   return (
     <div className="App">
-      <Bpmn4FrssEditor />
+      <Bpmn4FrssModeler />
     </div>
   )
 }

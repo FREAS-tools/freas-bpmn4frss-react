@@ -5,9 +5,9 @@ import { FrssModeler } from "freas-bpmn4frss-library";
 import "../assets/index.css";
 
 // import components
-import { FileInputButton } from "../components/FileInputButton";
-import { ButtonContainer } from "../components/ButtonContainer";
-import { Button } from "../components/Button";
+import { FileInputButton } from "./FileInputButton";
+import { ButtonContainer } from "./ButtonContainer";
+import { Button } from "./Button";
 import { ValidationForm } from "./ValidationForm";
 
 // import utility functions
@@ -15,12 +15,18 @@ import { loadDiagramFromFile } from "../utils/loadDiagramFromFile";
 import { donwloadDiagramAsXML } from "../utils/downloadXML";
 import { downloadDiagramAsSVG } from "../utils/downloadSVG";
 
+export type Bpmn4FrssModelerProps = {
+  className?: string,
+};
+
 /**
  * Component encapsulating the freas-bpmn4frss-library
  *
  * @returns JSX (TSX) element
  */
-const Bpmn4FrssEditor = () => {
+const Bpmn4FrssModeler: React.FC<Bpmn4FrssModelerProps> = (
+  {className}
+) => {
   // create a reference to mount the library to the rendered element
   const container = useRef<HTMLDivElement>(null);
 
@@ -33,9 +39,10 @@ const Bpmn4FrssEditor = () => {
   // create a state for the Bpmn4FrssWebEditor
   const [library, setLibrary] = useState<FrssModeler>();
 
+  // diagram state triggering remounting of the validation form panel
   const [diagram, setDiagram] = useState<string | undefined>();
 
-  // state for the panel (forcing a redraw)
+  // state for the panel (triggering a redraw)
   const [panelState, setPanelState] = useState<boolean>(true);
   const downloadFileStore = useRef<string | undefined>();
 
@@ -87,7 +94,7 @@ const Bpmn4FrssEditor = () => {
   }, [library, resizer]);
 
   return (
-    <div className="bpmn4frss">
+    <div className={`bpmn4frss ${className ?? ''}`}>
       <div className="editor-container">
         {/* Bpmn4Frss TypeScript library */}
         <div ref={container} className="editor"></div>
@@ -141,14 +148,16 @@ const Bpmn4FrssEditor = () => {
         className={`properties${panelState ? ' visible' : ''}`}
       ></div>
 
-      {/* Validation form */}
-      <ValidationForm 
-        className={`validation${!panelState ? ' visible' : ''}`}
-        library={library}
-        diagram={diagram}
-      />
+      {!panelState && 
+        /* Validation form panel */
+        <ValidationForm
+          className={'validation visible'}
+          library={library}
+          diagram={diagram}
+        />
+      }
     </div>
   );
 };
 
-export default Bpmn4FrssEditor;
+export default Bpmn4FrssModeler;
