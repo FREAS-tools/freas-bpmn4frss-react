@@ -20,4 +20,4 @@ RUN npm install
 RUN npm link freas-bpmn4frss-library
 
 EXPOSE 8000
-CMD [ "npm", "start" ]
+CMD [ "npm", "start", "--", "--host", "0.0.0.0", "--port", "8000"]
