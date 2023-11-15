@@ -21,7 +21,7 @@ Then, head over to the `freas-bpmn4frss-library` and follow the instructions. Th
 After linking the libraries, the last step is to start this application by running the start command in this project's folder:
 
 ```sh
-npm start
+npm start -- --host 'localhost' --port 5000
 ```
 
 This starts a web server listening on port 5000.

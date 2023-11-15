@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 import { getAndValidateRequest } from '../api';
 import type { FrssModeler } from 'freas-bpmn4frss-library';
 import type {
@@ -21,9 +22,8 @@ export const runValidation = async (
     /* Build the request data */
     const request: DataValidationRequest = {
       ...data,
-      bpmn_model: xmlDiagram.xml
+      model: Buffer.from(xmlDiagram.xml, 'binary').toString('base64')
     };
-
     /* Send request to the REST API */
     const result = await getAndValidateRequest(request);
 

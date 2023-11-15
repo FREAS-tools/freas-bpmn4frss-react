@@ -1,5 +1,5 @@
 // The URL of the REST API
-export const apiUrl = 'http://localhost:4000';
+export const apiUrl = import.meta.env.VITE_VALIDATION_ANALYZER_URL;
 
 // The route of choice
-export const validationApiRoute = `${apiUrl}/validation`;
+export const validationApiRoute = `${apiUrl}/analysis`;
