@@ -15,9 +15,6 @@ import { validationApiRoute } from "./route";
 export const getAndValidateRequest = async (
   data: DataValidationRequest,
 ): Promise<DataValidationResult> => {
-  console.log(data);
   const response = await axios.post(validationApiRoute, data);
-  console.log(response);
-
   return dataValidationResultSchema.parse(response.data);
 }
