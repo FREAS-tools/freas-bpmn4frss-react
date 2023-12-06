@@ -32,20 +32,25 @@ static $inject = [
 
         if (is(shape, 'bpmn:DataStoreReference') && shape.type !== 'label') {
 
-        // create a DataStore every time a DataStoreReference is created
-        const dataStore = bpmnFactory.create('bpmn:DataStore');
-        // set the DataStore parent
-        dataStore.$parent = context.parent;
-        // add the DataStore to parent's flow elements
-        context.parent.businessObject.flowElements.push(dataStore);
-
-        // modeling.updateProperties(element, {
-        //   dataStoreRef: dataStore,
-        // });
-
-        // set the DataStoreReference reference to the DataStore
-        shape.businessObject.dataStoreRef = dataStore;
+          // create a DataStore every time a DataStoreReference is created
+          const dataStore = bpmnFactory.create('bpmn:DataStore');
+          // set the DataStore's parent the same as DataStoreReference
+          dataStore.$parent = context.parent;
+          // add the DataStore to parent process's flow elements
+          // TODO: There is a bug, if the process does not have flow elements (yet), it breaks
+          getParentProcess(context.parent).flowElements.push(dataStore);
+          // set the DataStoreReference reference to the DataStore
+          shape.businessObject.dataStoreRef = dataStore;
         }
     });
+
+    function getParentProcess(parent: any) {
+      console.log(parent);
+      if (is(parent, 'bpmn:Participant')) return parent.businessObject.processRef;
+      // There is a participant, but dataStoreReference is placed "outside". Fallback to bpmn-js behaviour 
+      if (is(parent, 'bpmn:Collaboration')) return parent.businessObject.participants[0].processRef;
+      // The parent is process or sub process
+      return parent.businessObject;
+     }
   }
 }
