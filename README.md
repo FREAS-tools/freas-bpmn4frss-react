@@ -5,7 +5,7 @@ This project integrates the `freas-bpmn4frss-library` and offers a typed `Bpmn4F
 ## Prerequisites
 
 - Node 18 LTS with `npm` (tested with Node version 18.16.0 and `npm` version 9.6.6)
-- Free port 5000 (can be changed by modifying the code in the file `vite.config.ts`)
+- Free port 8000 (can be changed by modifying the code in the file `vite.config.ts`)
 
 ## Running this integration locally
 
@@ -21,10 +21,10 @@ Then, head over to the `freas-bpmn4frss-library` and follow the instructions. Th
 After linking the libraries, the last step is to start this application by running the start command in this project's folder:
 
 ```sh
-npm start -- --host 'localhost' --port 5000
+npm start -- --host 'localhost' --port 8000
 ```
 
-This starts a web server listening on port 5000.
+This starts a web server listening on port 8000.
 
 
 > Note: currently not transpiled to regular JavaScript, so it only works with React projects that use TypeScript and are able to transpile it themselves.

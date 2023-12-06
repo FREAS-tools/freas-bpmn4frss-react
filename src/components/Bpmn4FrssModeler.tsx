@@ -15,6 +15,9 @@ import { loadDiagramFromFile } from "../utils/loadDiagramFromFile";
 import { donwloadDiagramAsXML } from "../utils/downloadXML";
 import { downloadDiagramAsSVG } from "../utils/downloadSVG";
 
+// import bpmn extensions and fixes
+import createDataStoreBehavior from "../bpmn-extensions";
+
 export type Bpmn4FrssModelerProps = {
   className?: string,
 };
@@ -62,7 +65,10 @@ const Bpmn4FrssModeler: React.FC<Bpmn4FrssModelerProps> = (
           container: container.current ?? undefined,
           propertiesPanel: {
             parent: propertiesContainer.current ?? undefined
-          }
+          },
+          additionalModules: [
+            createDataStoreBehavior
+          ]
         })
       );
       initializeLibrary.current = false;
