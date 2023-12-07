@@ -37,8 +37,11 @@ static $inject = [
           // set the DataStore's parent the same as DataStoreReference
           dataStore.$parent = context.parent;
           // add the DataStore to parent process's flow elements
-          // TODO: There is a bug, if the process does not have flow elements (yet), it breaks
-          getParentProcess(context.parent).flowElements.push(dataStore);
+          let flowElements = getParentProcess(context.parent).flowElements
+          if (typeof flowElements == "undefined") {
+            flowElements = [];
+          }
+          flowElements.push(dataStore);
           // set the DataStoreReference reference to the DataStore
           shape.businessObject.dataStoreRef = dataStore;
         }
