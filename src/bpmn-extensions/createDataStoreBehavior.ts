@@ -9,7 +9,6 @@ import { is } from 'bpmn-js/lib/util/ModelUtil';
  * 
  * When a bpmn:DataStoreReference is created, a bpmn:DataStore is created as well.
  * Furthermore, it is injected to the BPMN and wired to the right place.
- * The wiring is required as bpmn:DataStore is not a FlowElement, whereas bpmn:DataObject is.
  */
 export default class CreateDataStoreBehavior extends CommandInterceptor {
 static $inject = [
@@ -34,26 +33,19 @@ static $inject = [
 
           // create a DataStore every time a DataStoreReference is created
           const dataStore = bpmnFactory.create('bpmn:DataStore');
-          // set the DataStore's parent the same as DataStoreReference
-          dataStore.$parent = context.parent;
-          // add the DataStore to parent process's flow elements
-          let flowElements = getParentProcess(context.parent).flowElements
-          if (typeof flowElements == "undefined") {
-            flowElements = [];
-          }
-          flowElements.push(dataStore);
+          // get the root element, so that the DataStore can be placed there
+          const root = getRoot(context.parent.businessObject);
+          dataStore.$parent = root;
+          root.rootElements.push(dataStore);
           // set the DataStoreReference reference to the DataStore
           shape.businessObject.dataStoreRef = dataStore;
         }
     });
 
-    function getParentProcess(parent: any) {
-      console.log(parent);
-      if (is(parent, 'bpmn:Participant')) return parent.businessObject.processRef;
-      // There is a participant, but dataStoreReference is placed "outside". Fallback to bpmn-js behaviour 
-      if (is(parent, 'bpmn:Collaboration')) return parent.businessObject.participants[0].processRef;
-      // The parent is process or sub process
-      return parent.businessObject;
-     }
+    function getRoot(element: any) {
+      console.log(element);
+      if (element.$parent == undefined && element.rootElements) return element;
+      else return getRoot(element.$parent);
+    }
   }
 }
