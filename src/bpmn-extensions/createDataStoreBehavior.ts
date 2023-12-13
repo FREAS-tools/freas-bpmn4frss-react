@@ -43,7 +43,6 @@ static $inject = [
     });
 
     function getRoot(element: any) {
-      console.log(element);
       if (element.$parent == undefined && element.rootElements) return element;
       else return getRoot(element.$parent);
     }
