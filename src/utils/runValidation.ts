@@ -31,7 +31,7 @@ export const runValidation = async (
     library?.removeFrssOverlays();
 
     /* Load new overlays */
-    showValidation(result, library);
+    showValidation(data, result, library);
   } catch (e) {
     console.error(e);
     alert('Something went wrong during request creation.');
