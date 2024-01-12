@@ -7,7 +7,8 @@ import {
 } from "freas-bpmn4frss-library/frss-extension/services/overlays/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import type {FrssModeler} from "freas-bpmn4frss-library";
+import { isAny } from 'bpmn-js/lib/util/ModelUtil';
+import type { FrssModeler } from "freas-bpmn4frss-library";
 import { runValidation } from "../utils/runValidation";
 import { Button } from "./Button";
 
@@ -108,7 +109,10 @@ export const ValidationForm: React.FC<ValidationFormProps> = (
               >
               {
                 library
-                  ?.getListOfElementIds()
+                  ?.getListOfElementIds([
+                    'bpmn:Task',
+                    'bpmn:DataStoreReference',
+                  ])
                   .map((id) => <Option value={id} key={id} />)
               }
               </select>
