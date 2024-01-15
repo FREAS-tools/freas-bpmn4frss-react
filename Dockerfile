@@ -2,8 +2,6 @@ FROM node:18.16.0-slim as base
 
 FROM base as build
 
-ENV WEB_PORT=8080
-
 RUN apt-get update -y
 RUN apt-get install git -y
 
@@ -22,11 +20,13 @@ RUN npm link freas-bpmn4frss-library
 
 FROM base as final
 
+ENV VITE_PORT=8080
+ENV VITE_HOST=0.0.0.0
+
 WORKDIR /app
 COPY --from=build /app /app
 RUN chown -R node:node /app
 
 USER node
 
-EXPOSE 8000
-CMD [ "npm", "start", "--", "--host", "0.0.0.0", "--port", "$WEB_PORT"]
+CMD [ "npm", "start"]
