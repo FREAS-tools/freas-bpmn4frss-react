@@ -42,6 +42,7 @@ static $inject = [
         }
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function getRoot(element: any) {
       if (element.$parent == undefined && element.rootElements) return element;
       else return getRoot(element.$parent);
