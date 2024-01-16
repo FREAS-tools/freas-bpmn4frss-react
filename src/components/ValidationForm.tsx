@@ -111,6 +111,7 @@ export const ValidationForm: React.FC<ValidationFormProps> = (
                   ?.getListOfElementIds([
                     'bpmn:Task',
                     'bpmn:DataStoreReference',
+                    'bpmn:Event',
                   ])
                   .map((id) => <Option value={id} key={id} />)
               }
