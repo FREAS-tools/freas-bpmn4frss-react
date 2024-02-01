@@ -11,6 +11,13 @@ import type { FrssModeler } from "freas-bpmn4frss-library";
 import { runValidation } from "../utils/runValidation";
 import { Button } from "./Button";
 
+const displayAnalysisTypes = {
+  'SEMANTIC_RULES': 'Validity',
+  'SEMANTIC_HINTS': 'Hint',
+  'SEMANTIC_ALL': 'Validity + Hint',
+  'EVIDENCE_QUALITY_ANALYSIS': 'Evidence Quality',
+};
+
 type ValidationFormProps = {
   className: string,
   library: FrssModeler | undefined,
@@ -21,10 +28,11 @@ type ValidationFormProps = {
 
 type OptionProps = {
   value: string,
+  displayValue: string,
 }
 
-const Option: React.FC<OptionProps> = ({value}) => (
-  <option value={value}>{value}</option>
+const Option: React.FC<OptionProps> = ({value, displayValue}) => (
+  <option value={value}>{displayValue}</option>
 )
 
 export const ValidationForm: React.FC<ValidationFormProps> = (
@@ -86,7 +94,7 @@ export const ValidationForm: React.FC<ValidationFormProps> = (
             analysisTypes
               .map(
                 (analysisType) => (
-                  <Option value={analysisType} key={analysisType}/>
+                  <Option displayValue={displayAnalysisTypes[analysisType]} value={analysisType} />
                 ))
           }
         </select>
@@ -113,7 +121,7 @@ export const ValidationForm: React.FC<ValidationFormProps> = (
                     'bpmn:DataStoreReference',
                     'bpmn:Event',
                   ])
-                  .map((id) => <Option value={id} key={id} />)
+                  .map((id) => <Option displayValue={id} value={id} />)
               }
               </select>
             </>
